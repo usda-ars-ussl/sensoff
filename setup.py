@@ -15,7 +15,7 @@ mobile survey platforms
 ).replace("\n", " ")
     
 
-SHORT = "Correct GPS transect coordinates to account for sensor offsets"
+SHORT = "Correct GPS transect coordinates to account for on-the-go sensor offsets"
 
 
 setup(
