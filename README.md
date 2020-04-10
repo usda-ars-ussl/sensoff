@@ -1,7 +1,7 @@
 # sensoff
 
-Python 3 module corrects GPS transect coordinates when an on-the-go sensor is
-significantly offset from the GPS on a mobile instrument platform.
+Correct field transect coordinates when an on-the-go sensor is offset from the
+GPS on a mobile survey platform.
 
 ```
 $ python -m sensoff --ioff -0.5 --loff -1.5 sensor_survey_GAMMA.csv
@@ -9,11 +9,12 @@ $ python -m sensoff --ioff -0.5 --loff -1.5 sensor_survey_GAMMA.csv
 
 ![transect plot](./example/gamma_survey.png)
 
-It is straightforward to determine the location of a sensor if the heading of a
-mobile platform is known. The problem solved by the code is that the heading is
-not known. That is, the platform's position is recorded by the GPS, but not
-its direction. The code estimates the unknown heading to be a weighted average
-of the bearings of the prior and subsequent legs of the traverse. 
+Determining the position of an offset on-the-go sensor is relatively
+straightforward if the heading of the mobile platform at each GPS reading is
+known. The problem is that the heading is not known: the platform's position is
+recorded by the GPS, but not its direction. To calculate the sensor location,
+the unknown heading at each point is estimated to be a weighted average of the
+bearings of the prior and subsequent legs of the traverse. 
 
 See:
 
@@ -121,8 +122,6 @@ In [3]: print(sensor_coords)
 
 In [4]: help(sensor_coordinates)
 
-```
-```
 Help on function sensor_coordinates in module sensoff.sensoff:
 
 sensor_coordinates(gps_file, inline_offset=0, lateral_offset=0, xcol=1, ycol=2, delimiter=',', headrows=None, ioff=None, loff=None)
