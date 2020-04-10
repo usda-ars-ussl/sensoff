@@ -103,7 +103,7 @@ $ python -m sensoff --ioff -1.1 --loff 0.5 --xcol 2 --ycol 3 --delimiter " " dat
 
 #### From python:
 
-```python
+```
 In [1]: from sensoff import sensor_coordinates
 
 In [2]: sensor_coords = sensor_coordinates("dummy0.csv", ioff=1, loff=1)
