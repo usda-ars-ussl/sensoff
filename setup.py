@@ -9,13 +9,13 @@ with open(os.path.join(HERE, "sensoff", "__version__.py")) as f:
 
 
 LONG = (
-"""Correct GPS transect coordinates to account for sensor offsets on on-the-go
+"""Corrects GPS transect coordinates to account for sensor offsets on on-the-go
 mobile survey platforms
 """
 ).replace("\n", " ")
     
 
-SHORT = "Correct GPS transect coordinates to account for on-the-go sensor offsets"
+SHORT = "Corrects GPS transect coordinates to account for on-the-go sensor offsets"
 
 
 setup(

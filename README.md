@@ -1,6 +1,6 @@
 # sensoff
 
-Correct field transect coordinates when an on-the-go sensor is offset from the
+Corrects field transect coordinates when an on-the-go sensor is offset from the
 GPS on a mobile survey platform.
 
 ```

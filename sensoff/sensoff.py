@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Correct GPS transect coordinates when an on-the-go sensor is
+Corrects GPS transect coordinates when an on-the-go sensor is
 significantly offset from the GPS on a mobile instrument platform.
 
 """
