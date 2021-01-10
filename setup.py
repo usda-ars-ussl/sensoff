@@ -1,25 +1,27 @@
 import os
 from setuptools import setup
+from typing import Dict
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-about = {}
+about: Dict[str, str] = {}
 with open(os.path.join(HERE, "sensoff", "__version__.py")) as f:
     exec(f.read(), about)
 
 
 LONG = (
-"""Corrects GPS transect coordinates to account for sensor offsets on on-the-go
+    """Corrects GPS transect coordinates to account for sensor offsets on on-the-go
 mobile survey platforms
 """
 ).replace("\n", " ")
-    
+
 
 SHORT = "Corrects GPS transect coordinates to account for on-the-go sensor offsets"
 
 
 setup(
     name="sensoff",
+    python_requires=">=3.7",
     version=about["__version__"],
     description=SHORT,
     long_description=LONG,

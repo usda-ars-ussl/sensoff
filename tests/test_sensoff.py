@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 import numpy.testing as npt
-from sensoff import sensor_coordinates
+from sensoff import Survey
 
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 data0 = os.path.join(TESTDIR, "dummy0.csv")
@@ -26,32 +26,26 @@ def test_sensor_coordinates():
     ioff = 1
     loff = -1
 
-    r0 = sensor_coordinates(csvdata_str, ioff, loff)
-    r1 = sensor_coordinates(data0, ioff=ioff, loff=loff)
-    r2 = sensor_coordinates(
-        data1, ioff=ioff, loff=loff, delimiter=" ", xcol=2, ycol=3
+    survey = Survey.read_xy(csvdata_str, skiprows=1)
+    r0 = survey.to_sensor_coords(ioff, loff)
+    r1 = Survey.read_xy(data0, skiprows=1).to_sensor_coords(
+        inline_offset=ioff, lateral_offset=loff
     )
-    r3 = sensor_coordinates(
-        data1,
-        inline_offset=ioff,
-        lateral_offset=loff,
-        delimiter=" ",
-        xcol=2,
-        ycol=3,
-        headrows=2,
+    r3 = Survey.read_xy(data1, sep=" ", xcol=2, ycol=3, skiprows=2).to_sensor_coords(
+        inline_offset=ioff, lateral_offset=loff,
     )
 
-    r0 = np.array(r0[1:])
-    npt.assert_allclose(r0, np.array(r1[1:]))
-    npt.assert_allclose(r0, np.array(r2[1:]))
-    npt.assert_allclose(r0, np.array(r3[1:]))
+    r0 = np.array(r0)
+    npt.assert_allclose(r0, np.array(r1))
+    npt.assert_allclose(r0, np.array(r3))
 
-    actual_distances = np.hypot(r0[:, 0] - r0[:, 2], r0[:, 1] - r0[:, 3])[1:-1] 
+    c0 = np.array(survey)
+    actual_distances = np.hypot(r0[:, 0] - c0[:, 0], r0[:, 1] - c0[:, 1])[1:-1]
     desired_distance = np.hypot(loff, ioff)
     npt.assert_allclose(
         actual_distances, np.full(len(actual_distances), desired_distance)
     )
-            
+
 
 if __name__ == "__main__":
     test_sensor_coordinates()

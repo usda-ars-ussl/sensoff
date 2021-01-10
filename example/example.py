@@ -4,7 +4,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sensoff import sensor_coordinates
+from sensoff import Survey
 
 EXDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -14,9 +14,10 @@ def gamma_example():
     ioff = -0.5
     loff = -1.5
     datafile = os.path.join(EXDIR,"sensor_survey_GAMMA.csv")
-    sc = sensor_coordinates(datafile, ioff=ioff, loff=loff)
+    gps = Survey.read_xy(datafile, skiprows=1)
+    sensor = gps.to_sensor_coords(ioff, loff)
     fig, ax = plt.subplots()
-    ax = transect_plot(sc, ax)
+    ax = transect_plot(gps, sensor, ax)
     ax.legend(["GPS", "Sensor"])
     ax.set_title(
         f"inline offset = {ioff} m, lateral offset = {loff} m", pad=20
@@ -57,8 +58,9 @@ def offsets_demo():
 
     fig, axes = plt.subplots(3, 3, figsize=(7, 7), sharex=True, sharey=True)
     for (ioff, loff), ax in zip(offsets, axes.flatten()):
-        sensor_coords = sensor_coordinates(csvdata, ioff, loff)
-        ax = transect_plot(sensor_coords, ax)
+        gps = Survey.read_xy(csvdata)
+        sensor = gps.to_sensor_coords(ioff, loff)
+        ax = transect_plot(gps, sensor, ax)
         ax.set_title(f"inline = {ioff}, lateral={loff}", fontsize=10)
         ax.axis("off")
     axes[0, 0].legend(["GPS", "Sensor"])
@@ -69,15 +71,15 @@ def offsets_demo():
     print("done")
 
 
-def transect_plot(coords, ax=None):
+def transect_plot(gps, sensor, ax=None):
     if ax is None:
         ax = plt.gca()
-    sc = np.asarray(coords[1:])
-    xgps, ygps, xsens, ysens = sc[:, 0], sc[:, 1], sc[:, 2], sc[:, 3]
+    xgps, ygps = tuple(zip(*gps))
+    xsens, ysens = tuple(zip(*sensor))
 
     ax.plot(xgps, ygps, "o", linewidth=0, markersize=1.5)
     ax.plot(xsens, ysens, "o", linewidth=0, markersize=1.5)
-    for xg, yg, xs, ys in sc:
+    for xg, yg, xs, ys in zip(xgps, ygps, xsens, ysens):
         ax.plot([xg, xs], [yg, ys], "g-", linewidth=0.5)
     ax.set_aspect("equal")
     return ax
