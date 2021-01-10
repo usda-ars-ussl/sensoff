@@ -127,7 +127,7 @@ In [6]: help(Sensor.to_sensor_coords)
 
 def to_sensor_coords(
     self, inline_offset: int = 0, lateral_offset: int = 0
-) -> Points:
+) -> List[Point]:
     inline_offset : float, optional
         Sensor offset distance inline with the direction of travel.
         Positive in the direction of travel. Default is 0.
