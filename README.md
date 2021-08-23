@@ -97,9 +97,9 @@ $ python -m sensoff --ioff -1.1 --loff 0.5 --xcol 2 --ycol 3 --sep " " datafile3
 #### From python:
 
 ```
-In [1]: from sensoff import Survey
+In [1]: from sensoff import GPSCoords
 
-In [2]: survey = Survey.read_xy("dummy0.csv", skiprows=1)
+In [2]: survey = GPSCoords.from_csv("dummy0.csv", skiprows=1)
 
 In [3]: sensor_coords = survey.to_sens_coords(inline_offset=1, lateral_offset=1)
 
@@ -107,11 +107,11 @@ In [4]: print(sensor_coords)
 
 [(470534.417169402, 3759299.464556901), (470534.0298120643, 3759299.8127804487), (470534.3431564087, 3759299.670017598), (470534.9321063309, 3759298.5976250498), (470535.09349569224, 3759298.1006433647), (470534.72614854627, 3759298.08100075), (470534.3293269551, 3759297.1871465445), (470533.71902153065, 3759296.9455717937), (470532.8883022137, 3759296.816779944)]
 
-In [5]: help(Sensor.read_xy)
+In [5]: help(GPSCoords.from_csv)
 
-read_xy(
+from_csv(
     csvfile, sep: 'str' = ',', xcol: 'int' = 1, ycol: 'int' = 2, skiprows: 'int' = 0
-) -> 'Survey'
+) -> 'GPSCoords'
     csvfile : csv filename or object
         Delimited file containing GPS coordinates for OTG survey.
     xcol : int, optional
@@ -123,7 +123,7 @@ read_xy(
     skiprows : int, optional
         Number of header rows in datafile. Default is 0.
 
-In [6]: help(Sensor.to_sensor_coords)
+In [6]: help(GPSCoords.to_sensor_coords)
 
 def to_sensor_coords(
     self, inline_offset: int = 0, lateral_offset: int = 0

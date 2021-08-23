@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 import numpy.testing as npt
-from sensoff import Survey
+from sensoff import GPSCoords
 
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 data0 = os.path.join(TESTDIR, "dummy0.csv")
@@ -26,12 +26,12 @@ def test_sensor_coordinates():
     ioff = 1
     loff = -1
 
-    survey = Survey.read_xy(csvdata_str, skiprows=1)
+    survey = GPSCoords.from_csv(csvdata_str, skiprows=1)
     r0 = survey.to_sensor_coords(ioff, loff)
-    r1 = Survey.read_xy(data0, skiprows=1).to_sensor_coords(
+    r1 = GPSCoords.from_csv(data0, skiprows=1).to_sensor_coords(
         inline_offset=ioff, lateral_offset=loff
     )
-    r3 = Survey.read_xy(data1, sep=" ", xcol=2, ycol=3, skiprows=2).to_sensor_coords(
+    r3 = GPSCoords.from_csv(data1, sep=" ", xcol=2, ycol=3, skiprows=2).to_sensor_coords(
         inline_offset=ioff, lateral_offset=loff,
     )
 

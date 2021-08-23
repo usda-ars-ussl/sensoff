@@ -32,6 +32,7 @@ import sys
 # Standard Position Angle (SPA) == standard trigonometric unit circle
 # angle having one ray coincident with the positive x-axis, positive
 # in the counter-clockwise direction, and a value between (-pi, pi).
+
 StandardPositionAngle = float
 Point = Tuple[float, float]
 
@@ -88,16 +89,16 @@ def headings(points: List[Point]) -> List[StandardPositionAngle]:
     return headings
 
 
-class Survey(List[Point]):
-    """List of coordinates points from OTG survey.
+class GPSCoords(List[Point]):
+    """List of GPS coordinates points from OTG survey.
     
-    Survey = List[Point] = List[Tuple(float, float)]
+    GPSCoords = List[Point] = List[Tuple(float, float)]
     """
 
-    @staticmethod
-    def read_xy(
-        csvfile, sep: str = ",", xcol: int = 1, ycol: int = 2, skiprows: int = 0
-    ) -> Survey:
+    @classmethod
+    def from_csv(
+        cls, csvfile, sep: str = ",", xcol: int = 1, ycol: int = 2, skiprows: int = 0
+    ) -> GPSCoords:
         """
         csvfile : csv filename or object
             Delimited file containing GPS coordinates for OTG survey.
@@ -134,7 +135,7 @@ class Survey(List[Point]):
         except AttributeError:
             pass
 
-        return Survey(xy)
+        return GPSCoords(xy)
 
     def to_sensor_coords(
         self, inline_offset: int = 0, lateral_offset: int = 0
@@ -211,7 +212,7 @@ def arg_parser():
 def main():
     parser = arg_parser()
     args = parser.parse_args()
-    coords = Survey.read_xy(
+    coords = GPSCoords.from_csv(
         csvfile=args.FILE,
         xcol=args.xcol,
         ycol=args.ycol,

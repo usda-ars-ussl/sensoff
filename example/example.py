@@ -4,7 +4,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sensoff import Survey
+from sensoff import GPSCoords
 
 EXDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -14,7 +14,7 @@ def gamma_example():
     ioff = -0.5
     loff = -1.5
     datafile = os.path.join(EXDIR,"sensor_survey_GAMMA.csv")
-    gps = Survey.read_xy(datafile, skiprows=1)
+    gps = GPSCoords.from_csv(datafile, skiprows=1)
     sensor = gps.to_sensor_coords(ioff, loff)
     fig, ax = plt.subplots()
     ax = transect_plot(gps, sensor, ax)
@@ -58,7 +58,7 @@ def offsets_demo():
 
     fig, axes = plt.subplots(3, 3, figsize=(7, 7), sharex=True, sharey=True)
     for (ioff, loff), ax in zip(offsets, axes.flatten()):
-        gps = Survey.read_xy(csvdata)
+        gps = GPSCoords.from_csv(csvdata)
         sensor = gps.to_sensor_coords(ioff, loff)
         ax = transect_plot(gps, sensor, ax)
         ax.set_title(f"inline = {ioff}, lateral={loff}", fontsize=10)

@@ -1,3 +1,6 @@
+# v1.2.0 (2021-08-22)
+- Changed staticmethod Survey.read_csv to classmethod Survey.from_csv
+
 # v1.1.0 (2021-01-10)
 - Add type hints, re-factor
 - Changed interface from sensor_coords func to Survey class
